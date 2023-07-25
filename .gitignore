@@ -1,0 +1,12 @@
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+
+# MyPy cache files
+.mypy_cache/
+
+# Private app data
+.todo-app-fastapi/

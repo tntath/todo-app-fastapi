@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pydantic
+sqlalchemy
+databases[postgresql]
+alembic
+pytest
+psycopg2-binary
+httpx
+black
+mypy
