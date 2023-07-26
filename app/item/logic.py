@@ -30,3 +30,14 @@ def get_items(
         query = query.filter(ItemModel.deleted == deleted)
 
     return query.all()
+
+
+def update_item(db: Session, item_id: str, item: ItemCreate) -> ItemModel | None:
+    db_item = get_item(db, item_id)
+    if db_item is None:
+        return None
+    for var, value in vars(item).items():
+        setattr(db_item, var, value)
+    db.commit()
+    db.refresh(db_item)
+    return db_item

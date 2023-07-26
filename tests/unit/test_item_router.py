@@ -121,3 +121,22 @@ class TestItem:
 
         assert response.status_code == 200
         assert response.json() == mock_response_items
+
+    def test_update_item(self, mock_get_db):
+        mock_response_item = {
+            "id": str(uuid.uuid4()),
+            "title": "Test Item",
+            "completed": True,
+            "deleted": False,
+        }
+
+        with patch("app.item.router.update_item", return_value=mock_response_item):
+            response = client.put(
+                f"/items/{mock_response_item['id']}",
+                json=ItemCreate(
+                    title="Test Item", completed=True, deleted=False
+                ).model_dump(),
+            )
+
+        assert response.status_code == 200
+        assert response.json() == mock_response_item
