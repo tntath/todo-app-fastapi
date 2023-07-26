@@ -140,3 +140,17 @@ class TestItem:
 
         assert response.status_code == 200
         assert response.json() == mock_response_item
+
+    def test_remove_item(self, mock_get_db):
+        mock_response_item = {
+            "id": str(uuid.uuid4()),
+            "title": "Test Item",
+            "completed": False,
+            "deleted": False,
+        }
+
+        with patch("app.item.router.remove_item", return_value=mock_response_item):
+            response = client.delete(f"/items/{mock_response_item['id']}")
+
+        assert response.status_code == 200
+        assert response.json() == mock_response_item

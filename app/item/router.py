@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from database.session import get_db
 
-from .logic import create_item, get_item, get_items, update_item
+from .logic import create_item, get_item, get_items, update_item, remove_item
 from .model import Item as ItemModel
 from .schema import Item, ItemCreate
 
@@ -42,3 +42,11 @@ def update_single_item(
     if updated_item is None:
         raise HTTPException(status_code=404, detail="Item not found")
     return updated_item
+
+
+@router.delete("/items/{item_id}", response_model=Item)
+def remove_single_item(item_id: str, db: Session = Depends(get_db)) -> ItemModel:
+    deleted_item = remove_item(db, item_id)
+    if deleted_item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return deleted_item

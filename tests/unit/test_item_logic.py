@@ -3,7 +3,7 @@ from unittest.mock import patch, Mock
 
 import pytest
 
-from app.item.logic import create_item, get_item, get_items, update_item
+from app.item.logic import create_item, get_item, get_items, update_item, remove_item
 from app.item.schema import Item, ItemCreate
 from app.item.model import Item as ItemModel
 
@@ -94,5 +94,18 @@ class TestItemLogic:
         mock_db_session.query.assert_called_once()
         mock_db_session.commit.assert_called_once()
         mock_db_session.refresh.assert_called_once()
+
+        assert item == TEST_ITEM
+
+    def test_remove_item(self, mock_db_session):
+        mock_db_session.query.return_value.filter.return_value.first.return_value = (
+            TEST_ITEM
+        )
+
+        item = remove_item(mock_db_session, str(TEST_ITEM_ID))
+
+        mock_db_session.query.assert_called_once()
+        mock_db_session.delete.assert_called_once()
+        mock_db_session.commit.assert_called_once()
 
         assert item == TEST_ITEM
