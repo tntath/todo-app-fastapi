@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -26,5 +26,9 @@ def get_single_item(item_id: str, db: Session = Depends(get_db)) -> ItemModel:
 
 
 @router.get("/items/", response_model=List[Item])
-def get_all_items(db: Session = Depends(get_db)) -> List[ItemModel]:
-    return get_items(db)
+def get_all_items(
+    db: Session = Depends(get_db),
+    completed: Optional[bool] = None,
+    deleted: Optional[bool] = None,
+) -> List[ItemModel]:
+    return get_items(db, completed=completed, deleted=deleted)

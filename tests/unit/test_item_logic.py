@@ -5,15 +5,22 @@ import pytest
 
 from app.item.logic import create_item, get_item, get_items
 from app.item.schema import Item, ItemCreate
+from app.item.model import Item as ItemModel
 
 TEST_ITEM_ID = uuid.uuid4()
-TEST_ITEM = Item(id=TEST_ITEM_ID, title="Test Item", completed=False, deleted=False)
+TEST_ITEM = Item(id=TEST_ITEM_ID, title="Test Item", completed=True, deleted=True)
+TEST_ITEM_MODEL = ItemModel(**TEST_ITEM.model_dump())
 
 
 @pytest.fixture
 @patch("app.item.logic.Session")
 def mock_db_session(session) -> Mock:
     return session
+
+
+@pytest.fixture
+def mock_query(mock_db_session) -> Mock:
+    return mock_db_session.query.return_value
 
 
 class TestItemLogic:
@@ -52,3 +59,23 @@ class TestItemLogic:
         mock_db_session.query.return_value.all.assert_called_once()
 
         assert items == None
+
+    def test_get_items_completed(self, mock_db_session, mock_query) -> None:
+        mock_query.filter.return_value = mock_query
+        mock_query.all.return_value = []
+
+        items = get_items(mock_db_session, completed=True)
+
+        assert mock_query.filter.call_args.args[0].compare(ItemModel.completed == True)
+        mock_query.all.assert_called_once()
+        assert items == []
+
+    def test_get_items_deleted(self, mock_db_session, mock_query) -> None:
+        mock_query.filter.return_value = mock_query
+        mock_query.all.return_value = []
+
+        items = get_items(mock_db_session, deleted=True)
+
+        assert mock_query.filter.call_args.args[0].compare(ItemModel.deleted == True)
+        mock_query.all.assert_called_once()
+        assert items == []

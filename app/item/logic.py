@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from sqlalchemy.orm import Session
 
@@ -13,9 +13,20 @@ def create_item(db: Session, item: ItemCreate) -> ItemModel:
     db.refresh(db_item)
     return db_item
 
+
 def get_item(db: Session, item_id: str) -> ItemModel | None:
     return db.query(ItemModel).filter(ItemModel.id == item_id).first()
 
 
-def get_items(db: Session) -> List[ItemModel]:
-    return db.query(ItemModel).all()
+def get_items(
+    db: Session, completed: Optional[bool] = None, deleted: Optional[bool] = None
+) -> List[ItemModel]:
+    query = db.query(ItemModel)
+
+    if completed is not None:
+        query = query.filter(ItemModel.completed == completed)
+
+    if deleted is not None:
+        query = query.filter(ItemModel.deleted == deleted)
+
+    return query.all()
