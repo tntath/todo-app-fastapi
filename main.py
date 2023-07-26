@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+
 from app.item.router import router as item_router
 
 app = FastAPI(title="FastAPI, Docker, and Traefik")

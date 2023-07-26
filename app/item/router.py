@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from database.session import get_db
 
-from .logic import create_item, get_item, get_items, update_item, remove_item
+from .logic import create_item, get_item, get_items, remove_item, update_item
 from .model import Item as ItemModel
 from .schema import Item, ItemCreate
 

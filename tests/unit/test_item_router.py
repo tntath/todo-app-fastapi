@@ -1,5 +1,5 @@
 import uuid
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 import pytest
 from fastapi.testclient import TestClient
@@ -122,7 +122,7 @@ class TestItem:
         assert response.status_code == 200
         assert response.json() == mock_response_items
 
-    def test_update_item(self, mock_get_db):
+    def test_update_item(self, mock_get_db) -> None:
         mock_response_item = {
             "id": str(uuid.uuid4()),
             "title": "Test Item",
@@ -141,7 +141,7 @@ class TestItem:
         assert response.status_code == 200
         assert response.json() == mock_response_item
 
-    def test_remove_item(self, mock_get_db):
+    def test_remove_item(self, mock_get_db) -> None:
         mock_response_item = {
             "id": str(uuid.uuid4()),
             "title": "Test Item",

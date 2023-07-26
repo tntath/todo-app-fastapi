@@ -1,7 +1,8 @@
 from sqlalchemy import Boolean, Column, String
 from sqlalchemy.dialects.postgresql import UUID
-from database.base import Base
 from sqlalchemy.sql import text
+
+from database.base import Base
 
 
 class Item(Base):

@@ -1,11 +1,12 @@
 import uuid
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 import pytest
 
-from app.item.logic import create_item, get_item, get_items, update_item, remove_item
-from app.item.schema import Item, ItemCreate
+from app.item.logic import (create_item, get_item, get_items, remove_item,
+                            update_item)
 from app.item.model import Item as ItemModel
+from app.item.schema import Item, ItemCreate
 
 TEST_ITEM_ID = uuid.uuid4()
 TEST_ITEM = Item(id=TEST_ITEM_ID, title="Test Item", completed=True, deleted=True)
@@ -80,7 +81,7 @@ class TestItemLogic:
         mock_query.all.assert_called_once()
         assert items == []
 
-    def test_update_item(self, mock_db_session):
+    def test_update_item(self, mock_db_session) -> None:
         mock_db_session.query.return_value.filter.return_value.first.return_value = (
             TEST_ITEM
         )
@@ -97,7 +98,7 @@ class TestItemLogic:
 
         assert item == TEST_ITEM
 
-    def test_remove_item(self, mock_db_session):
+    def test_remove_item(self, mock_db_session) -> None:
         mock_db_session.query.return_value.filter.return_value.first.return_value = (
             TEST_ITEM
         )
