@@ -13,7 +13,7 @@ The application is developed using FastAPI and uses PostgreSQL as its database b
 
 Before you begin, ensure you have met the following requirements:
 
-- You have installed [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/). (or just [Docker Desktop](https://www.docker.com/products/docker-desktop/))
+- You have installed [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) (or just [Docker Desktop](https://www.docker.com/products/docker-desktop/))
 
 ## Running the Application
 
